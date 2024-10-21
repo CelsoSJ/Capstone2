@@ -1,0 +1,60 @@
+body {
+  position: relative;
+  min-height: 100vh; /* Ensures the background covers the entire viewport */
+  margin: 0; /* Removes default margin */
+  font-family:'Poppins',Arial, Helvetica, sans-serif;
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('https://www.camella.com.ph/wp-content/uploads/2022/11/Sorsogon-State-University-SorSU-Photo-from-Online-Student-Tambayan.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  opacity: 0.5; /* Adjust the opacity level as needed */
+  z-index: -1; /* Ensure the background is behind other content */
+}
+
+.login-container{
+  box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.5);
+}
+.heading{
+  color:maroon
+}
+.card-header{
+  background-color: maroon;
+  color: #ffff;
+  font-weight: bold;
+  font-size:1.5rem
+
+}
+
+
+.card-body label{
+   font-size:1rem;
+   font-weight:bold
+}
+.card-body input:hover{
+  border-color: maroon;
+}
+
+li{
+  color:red;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+}
+
+.modal-header{
+  background-color: #03911e;
+  color: #ffff;
+}
+
+.modal-body{
+  font-size:1.5rem
+}

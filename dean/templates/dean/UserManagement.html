@@ -1,0 +1,404 @@
+{% extends 'dean/base.html' %}
+
+{% block content %}
+
+<main class="col ps-md-2 pt-2 mt-2">
+  <a href="#" data-bs-target="#sidebar" data-bs-toggle="collapse"
+    class="border rounded-3 p-1 text-decoration-none">
+    <i class="bi bi-list bi-lg py-2 p-1"></i>
+  </a>
+        <!--Display the message after doing an action eg creating user-->
+        {% if messages %}
+            <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
+
+  <div class="page-header pt-3">
+    <h2>User Account Management</h2>
+  </div>
+  <hr class="me-3">
+  <div class="wrap mb-3">
+    <div class="row d-flex">
+
+    <div class="col">
+      <form method="GET" action="">
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <input type="text" name="search" class="form-control" placeholder="Search users" value="{{ query }}">
+          </div>
+          </div>
+
+          <div class="col">
+            <div class="row ">
+              <div class="col d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Search</button>
+              </div>
+            
+              <div class="col">
+                <button type="button" class="btn btn-secondary" onclick="clearSearch()">Clear</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        </form>
+    
+    </div>
+
+    <div class="col d-flex justify-content-end me-3">
+      <!-- Button trigger modal -->
+    <button type="button" class="btn ms-auto text-white me-5"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="background-color: rgb(0, 180, 204);;">
+      Create User
+    </button>
+    </div>
+  </div>
+
+    <!-- Modal for creating user-->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Create Account</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            
+          <form method="POST" class="m-3" id="userForm">
+            {% csrf_token %}
+            
+     
+            
+            <div class="fields">
+
+              <div class="row mb-3">
+                <div class="col">
+                  <b id="Sem">First Name:<span class="text-danger">*</span></b>
+                  {{form.first_name }}
+                    {% for error in form.first_name.errors %}
+                      <div class="text-danger">{{ error }}</div>
+                    {% endfor %} 
+                </div>
+                
+            
+                <div class="col">
+                  <b id="Sem">Last Name:<span class="text-danger">*</span></b>
+                  {{ form.last_name }}
+                  {% for error in form.last_name.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                  {% endfor %} 
+                 </div>
+
+                <div class="col">
+                  <b id="Sem">Middle Initial:<span class="text-danger">*</span></b>
+                  {{ form.middle_initial }} 
+                    {% for error in form.middle_initial.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                  {% endfor %} 
+                  </div>
+              </div>
+
+
+              <div class="row mb-3">
+                <div class="col">
+                  <b id="Sem">Email Address:<span class="text-danger">*</span></b>
+                  {{ form.email }}
+                  {% for error in form.email.errors %}
+                  <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+                </div>
+                
+            
+                <div class="col">
+                  <b id="Sem">Create Username:<span class="text-danger">*</span></b>
+                  {{ form.username }}
+                  {% for error in form.username.errors %}
+                  <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+               </div>
+              </div>
+
+
+              <div class="row mb-3">
+                <div class="col d-flex align-items-center">
+                  <b>Address:<span class="text-danger">*</span></b>
+                  {{ form.address }}
+                  {% for error in form.address.errors %}
+                  <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+                </div>
+                
+              </div>
+              
+
+              
+              <div class="row d-flex align-items-center mb-3">
+                <div class="col">
+
+                  <b>Select a Program:<span class="text-danger">*</span></b>
+
+                  <div class="d-flex justify-content-around">
+                    {{ form.program }}
+                    {% for error in form.program.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                  {% endfor %}
+                  </div>
+                </div>
+
+                <div class="col ">
+                   
+                    <b>Birthday:<span class="text-danger">*</span></b>
+                    {{ form.birthday }}
+                    {% for error in form.birthday.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                  {% endfor %}
+                
+                </div>
+              </div>
+
+
+      
+              <br>
+              <br>
+
+              
+                
+                  <div class="d-flex justify-content-around">
+                    <b>Role:</b>
+                    {{ form.role }}
+                
+                    
+                    <b>Department:</b>
+                    {{ form.department }}
+                  </div>
+    
+      
+              <br>
+              <br>
+
+              <div class="row mb-3">
+                <div class="col">
+                  <b>Create Password:<span class="text-danger">*</span></b>
+                  {{ form.password1 }}
+                  {% for error in form.password1.errors %}
+                  <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+
+                </div>
+                  
+                <div class="col">
+                  <b>Confirm Password:<span class="text-danger">*</span></b>
+                  {{ form.password2 }}
+                  {% for error in form.password2.errors %}
+                  <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+                </div>
+              </div>
+
+            </div>
+            
+       
+    
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+          </div>
+            
+
+          </form>
+       
+          </div>
+          
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <!-- Edit User Modal -->
+<div class="modal fade" id="editUserModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="editUserModalLabel">Edit User</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="editUserFormContainer">
+          {% include 'dean/edit_user_form.html' %}
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  <div class="content-container me-3"> <!-- Added this div -->
+    <div class="row">
+      <div class="col-12">
+        <div class="content-container me-3">
+          <div class="row">
+            <div class="col-12">
+              <table class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Department</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Modify</th> <!-- New column for Modify actions -->
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for user in users %}
+                    {% if user.department == department%}
+                  <tr>
+                    <td>{{user.first_name}} {{user.last_name}}</td>
+                    <td>{{user.username}}</td>
+                    <td>{{user.department}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.role}}</td>
+
+                    {% if user.role_id == 1 %}
+                    <td>
+                      <div class="d-flex justify-content-start"> <!-- Flexbox for inline buttons -->
+                        <button class="btn btn-warning btn-sm me-2 edit-user-btn" data-bs-toggle="modal" data-bs-target="#editUserModal" data-user-id="{{ user.id }}">Edit</button>
+                        <button class="btn btn-danger btn-sm">Delete</button>
+                      </div>
+                    </td>
+                    {% else %}
+                    <td>
+                      <div class="d-flex justify-content-start"> <!-- Flexbox for inline buttons -->
+                        <button class="btn btn-warning btn-sm me-2">Edit</button>
+                      </div>
+                    </td>
+                    {% endif %}
+                  </tr>
+                  {% endif%}
+                  {% endfor %}
+
+                  
+                  <!-- Add more rows as needed -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> <!-- End of content-container -->
+</main>
+
+<!--include jQuery CDN link to use the AJAX functionality-->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<!--Ajax for handling creation of user-->
+<script>
+  $(document).ready(function() {
+    $('#userForm').on('submit', function(event) {
+      event.preventDefault(); // Prevent the default form submission
+  
+      $.ajax({
+        type: 'POST',
+        url: '{% url "create_user" %}',  // This dynamically inserts the URL for the 'create_user' view
+        data: $(this).serialize(), // Serialize form data for the server
+  
+        success: function(response) {
+          if (response.success) {
+            // Close the modal if form submission is successful
+            $('#staticBackdrop').modal('hide');
+            location.reload();
+          } else {
+            // Display form with errors if there are any
+            $('#staticBackdrop .modal-body').html(response.form_html);
+          }
+        },
+        error: function(xhr, errmsg, err) {
+          // Log the error message to the console
+          console.error(xhr.status + ": " + xhr.responseText);
+        }
+      });
+    });
+  });
+  </script>
+
+
+<!--ajax for editing user info-->
+<script>
+  $(document).ready(function() {
+    // Handle the edit button click
+    $('.edit-user-btn').on('click', function() {
+      var userId = $(this).data('user-id');
+      $.ajax({
+        url: '{% url "edit_user" 0 %}'.replace('0', userId),
+        type: 'GET',
+        success: function(data) {
+          $('#editUserFormContainer').html(data);
+        },
+        error: function(xhr, errmsg, err) {
+          console.error(xhr.status + ": " + xhr.responseText);
+        }
+      });
+    });
+  
+    // Handle form submission via AJAX
+    $('#editUserFormContainer').on('submit', '#editUserForm', function(event) {
+      event.preventDefault();
+      $.ajax({
+        type: 'POST',
+        url: $(this).attr('action'),
+        data: $(this).serialize(),
+        success: function(response) {
+          if (response.success) {
+            $('#editUserModal').modal('hide');
+            fetchUpdatedUserList();   //fetch and update the user list
+          } else {
+            $('#editUserFormContainer').html(response.form_html);
+          }
+        },
+        error: function(xhr, errmsg, err) {
+          console.error(xhr.status + ": " + xhr.responseText);
+        }
+      });
+    });
+  
+  
+  
+  // Function to fetch updated user list
+  function fetchUpdatedUserList() {
+      $.ajax({
+        url: '{% url "userManagement" %}',
+        type: 'GET',
+        success: function(data) {
+          // Assuming your user list is in a div with id 'userList'
+          $('#userList').html($(data).find('#userList').html());
+        },
+        error: function(xhr, errmsg, err) {
+          console.error(xhr.status + ": " + xhr.responseText);
+        }
+      });
+    } 
+  });
+  
+  </script>
+
+
+<!--script for search functionality-->
+<script>
+  function clearSearch() {
+      document.getElementsByName('search')[0].value = '';
+      document.forms[0].submit();
+  }
+</script>
+
+
+{% endblock %}
