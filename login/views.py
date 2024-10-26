@@ -23,6 +23,8 @@ def login_view(request):
           next_page = reverse('dean-homepage')
         elif user.role.name == "Faculty":
           next_page = reverse('faculty-homepage')
+        elif user.role.name == "Program Chair":
+          next_page = reverse('pc-homepage')
 
         return render(request, 'login/Login.html', {'form':form,'next':next_page, 'show_modal':True})
 
