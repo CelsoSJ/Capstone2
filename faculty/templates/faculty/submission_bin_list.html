@@ -1,0 +1,111 @@
+{% extends 'faculty/base.html' %}
+
+{% block content %}
+<main class="col ps-md-2 pt-2 mt-2">
+  <a href="#" data-bs-target="#sidebar" data-bs-toggle="collapse"
+    class="border rounded-3 p-1 text-decoration-none">
+    <i class="bi bi-list bi-lg py-2 p-1"></i>
+  </a>
+  <div class="page-header pt-3">
+    <h2>Submission Bins</h2>
+  </div>
+  <!--Display the message after successfull submission of document-->
+{% if messages %}
+<div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+    {% for message in messages %}
+        {{ message }}
+    {% endfor %}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+
+  <hr class="me-3">
+  <div class="content-container me-3"> <!-- Added this div -->
+    <div class="row">
+        <div class="col-12">
+          <table class="table table-striped">
+            <tr>
+                <th>Academic Year</th>
+                <th>Semester</th>
+                <th>Description</th>
+                <th>Date Created</th>
+                <th>Deadline</th>
+                <th>Action</th>
+            </tr>
+            {% for submission_bin in submission_bins %}
+                <tr>
+                    <td>{{ submission_bin.academic_year}}</td>
+                    <td>{{ submission_bin.semester}}</td>
+                    <td>{{ submission_bin.description}}</td>
+                    <td>{{ submission_bin.date_created}}</td>
+                    <td>{{ submission_bin.deadline}}</td>
+                    <td>
+                       <!-- Button trigger modal -->
+                        <button  type="button" class="btn btn-primary btn-sm openSubmitDocument"  data-bs-toggle="modal"
+                        data-submission-bin-id="{{ submission_bin.id }}"
+                        data-bs-target="#staticBackdrop">
+                        Submit Document
+                        </button> 
+                    </td>
+                </tr>
+            {% endfor %}
+          </table>  
+
+           
+        </div>
+    </div>
+</div> <!-- End of content-container -->
+
+<!-- Modal for submitting documents -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Submit Document</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="modalBody">
+        {% include 'faculty/submit_document.html' %}
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+<!--Ajax for handling submission bin-->
+<script> 
+
+    // Redirect to the main template when the modal is closed
+    document.getElementById('staticBackdrop').addEventListener('hidden.bs.modal', function () {
+    window.location.href = "{% url 'submission-bin-list' %}"; // Replace with the URL you want to redirect to
+    });
+    
+    document.querySelectorAll('.openSubmitDocument').forEach(button => { button.addEventListener('click', function() { 
+      const submissionBinId = this.getAttribute('data-submission-bin-id'); const url = `{% url 'submit_document' submission_bin_id=0 %}`.replace('0', submissionBinId); 
+      fetch(url) .then(response => response.text()) .then(html => { document.getElementById('modalBody').innerHTML = html; 
+      new bootstrap.Modal(document.getElementById('staticBackdrop')).show(); }); }); }); 
+    
+      document.addEventListener('submit', function(event) {
+         if (event.target.id === 'submitDocument') { 
+        event.preventDefault(); 
+        const form = event.target; 
+        const formData = new FormData(form); const submissionBinId = form.getAttribute('data-submission-bin-id');
+        const url = `{% url 'submit_document' submission_bin_id=0 %}`.replace('0', submissionBinId); 
+        fetch(url, { method: 'POST', body: formData, headers: { 'X-Requested-With': 'XMLHttpRequest' } }).then(response => response.json()).then(data => {
+           if (data.success) { 
+            document.getElementById('staticBackdrop').style.display = 'none'; 
+           location.reload(); 
+          } 
+          else { 
+            document.getElementById('modalBody').innerHTML = data.html_form; 
+          } }); } });
+        
+     </script> 
+    
+{% endblock %}

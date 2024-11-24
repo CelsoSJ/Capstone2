@@ -5,8 +5,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{% static 'faculty/css/home.css' %}">
-  <link rel="stylesheet" href="{% static 'faculty/css/dms_sidebar2.css' %}">
+  <link rel="stylesheet" href="{% static 'dean/css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'dean/css/dms_sidebar2.css' %}">
+  <link rel="stylesheet" href="{% static 'dean/css/files.css' %}">
   <!--Boxicons-->
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <!--Google Font Poppins-->
@@ -42,12 +43,12 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link text-white d-flex align-items-center">
+                <a href="{% url 'department-files' %}" class="nav-link text-white d-flex align-items-center">
                   <i class="bx bx-file"></i> <span class="ms-2">Files</span>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link text-white d-flex align-items-center">
+                <a href="{% url 'list-of-archived-users' %}" class="nav-link text-white d-flex align-items-center">
                   <i class="bx bx-archive"></i> <span class="ms-2">Archive</span>
                 </a>
               </li>

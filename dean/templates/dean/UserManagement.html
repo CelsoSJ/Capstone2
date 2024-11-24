@@ -49,7 +49,7 @@
     
     </div>
 
-    <div class="col d-flex justify-content-end me-3">
+    <div id="btn-create-user" class="col d-flex justify-content-end me-3">
       <!-- Button trigger modal -->
     <button type="button" class="btn ms-auto text-white me-5"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="background-color: rgb(0, 180, 204);;">
       Create User
@@ -66,151 +66,13 @@
             <h1 class="modal-title fs-5" id="staticBackdropLabel">Create Account</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
-            
-          <form method="POST" class="m-3" id="userForm">
-            {% csrf_token %}
-            
-     
-            
-            <div class="fields">
-
-              <div class="row mb-3">
-                <div class="col">
-                  <b id="Sem">First Name:<span class="text-danger">*</span></b>
-                  {{form.first_name }}
-                    {% for error in form.first_name.errors %}
-                      <div class="text-danger">{{ error }}</div>
-                    {% endfor %} 
-                </div>
-                
-            
-                <div class="col">
-                  <b id="Sem">Last Name:<span class="text-danger">*</span></b>
-                  {{ form.last_name }}
-                  {% for error in form.last_name.errors %}
-                    <div class="text-danger">{{ error }}</div>
-                  {% endfor %} 
-                 </div>
-
-                <div class="col">
-                  <b id="Sem">Middle Initial:<span class="text-danger">*</span></b>
-                  {{ form.middle_initial }} 
-                    {% for error in form.middle_initial.errors %}
-                    <div class="text-danger">{{ error }}</div>
-                  {% endfor %} 
-                  </div>
-              </div>
-
-
-              <div class="row mb-3">
-                <div class="col">
-                  <b id="Sem">Email Address:<span class="text-danger">*</span></b>
-                  {{ form.email }}
-                  {% for error in form.email.errors %}
-                  <div class="text-danger">{{ error }}</div>
-                {% endfor %}
-                </div>
-                
-            
-                <div class="col">
-                  <b id="Sem">Create Username:<span class="text-danger">*</span></b>
-                  {{ form.username }}
-                  {% for error in form.username.errors %}
-                  <div class="text-danger">{{ error }}</div>
-                {% endfor %}
-               </div>
-              </div>
-
-
-              <div class="row mb-3">
-                <div class="col d-flex align-items-center">
-                  <b>Address:<span class="text-danger">*</span></b>
-                  {{ form.address }}
-                  {% for error in form.address.errors %}
-                  <div class="text-danger">{{ error }}</div>
-                {% endfor %}
-                </div>
-                
-              </div>
-              
-
-              
-              <div class="row d-flex align-items-center mb-3">
-                <div class="col">
-
-                  <b>Select a Program:<span class="text-danger">*</span></b>
-
-                  <div class="d-flex justify-content-around">
-                    {{ form.program }}
-                    {% for error in form.program.errors %}
-                    <div class="text-danger">{{ error }}</div>
-                  {% endfor %}
-                  </div>
-                </div>
-
-                <div class="col ">
-                   
-                    <b>Birthday:<span class="text-danger">*</span></b>
-                    {{ form.birthday }}
-                    {% for error in form.birthday.errors %}
-                    <div class="text-danger">{{ error }}</div>
-                  {% endfor %}
-                
-                </div>
-              </div>
-
-
-      
-              <br>
-              <br>
-
-              
-                
-                  <div class="d-flex justify-content-around">
-                    <b>Role:</b>
-                    {{ form.role }}
-                
-                    
-                    <b>Department:</b>
-                    {{ form.department }}
-                  </div>
-    
-      
-              <br>
-              <br>
-
-              <div class="row mb-3">
-                <div class="col">
-                  <b>Create Password:<span class="text-danger">*</span></b>
-                  {{ form.password1 }}
-                  {% for error in form.password1.errors %}
-                  <div class="text-danger">{{ error }}</div>
-                {% endfor %}
-
-                </div>
-                  
-                <div class="col">
-                  <b>Confirm Password:<span class="text-danger">*</span></b>
-                  {{ form.password2 }}
-                  {% for error in form.password2.errors %}
-                  <div class="text-danger">{{ error }}</div>
-                {% endfor %}
-                </div>
-              </div>
-
-            </div>
-            
-       
-    
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Create</button>
-            </div>
+          <div class="modal-body" id="modalBody">
+            {% include 'dean/create_user_form.html' %}
+          
           </div>
             
 
-          </form>
+      
        
           </div>
           
@@ -241,6 +103,32 @@
 
 
 
+<!-- archiving user Modal -->
+<div class="modal fade archive" id="staticbackDrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Archive User Account</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="modalBody">
+       Are you sure you want to archive the account of  "<b><span id="userNamePlaceholder"></span></b>"?
+      </div>
+
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal" id="closeButton">Cancel</button>
+
+        <a href="#" id="confirmArchiveButton" class="btn btn-primary">Archive</a>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
   <div class="content-container me-3"> <!-- Added this div -->
     <div class="row">
       <div class="col-12">
@@ -252,9 +140,11 @@
                   <tr>
                     <th>Name</th>
                     <th>Username</th>
-                    <th>Department</th>
                     <th>Email</th>
+                    <th>Department</th>
+                    <th>Program</th>
                     <th>Role</th>
+                    <th>Last Login</th>
                     <th>Modify</th> <!-- New column for Modify actions -->
                   </tr>
                 </thead>
@@ -264,27 +154,29 @@
                   <tr>
                     <td>{{user.first_name}} {{user.last_name}}</td>
                     <td>{{user.username}}</td>
-                    <td>{{user.department}}</td>
                     <td>{{user.email}}</td>
+                    <td>{{user.department}}</td>
+                    <td>
+                      {% for program in user.program.all %}
+                      {{ program.name }},
+                      {% endfor %}
+                    </td>
                     <td>{{user.role}}</td>
+                    <td>{{ user.last_login }}</td>
 
-                    {% if user.role_id == 1 %}
+                    
                     <td>
                       <div class="d-flex justify-content-start"> <!-- Flexbox for inline buttons -->
                         <button class="btn btn-warning btn-sm me-2 edit-user-btn" data-bs-toggle="modal" data-bs-target="#editUserModal" data-user-id="{{ user.id }}">Edit</button>
-                        <button class="btn btn-danger btn-sm">Delete</button>
+
+                        <button class="btn btn-danger btn-sm" onclick="openArchiveModal('{{user.id}}', '{{user.username}}')">Archive</button>
                       </div>
                     </td>
-                    {% else %}
-                    <td>
-                      <div class="d-flex justify-content-start"> <!-- Flexbox for inline buttons -->
-                        <button class="btn btn-warning btn-sm me-2">Edit</button>
-                      </div>
-                    </td>
-                    {% endif %}
+                  
                   </tr>
-                  {% endif%}
+                  {% endif %}
                   {% endfor %}
+                  
 
                   
                   <!-- Add more rows as needed -->
@@ -303,33 +195,41 @@
 
 <!--Ajax for handling creation of user-->
 <script>
-  $(document).ready(function() {
-    $('#userForm').on('submit', function(event) {
-      event.preventDefault(); // Prevent the default form submission
-  
-      $.ajax({
-        type: 'POST',
-        url: '{% url "create_user" %}',  // This dynamically inserts the URL for the 'create_user' view
-        data: $(this).serialize(), // Serialize form data for the server
-  
-        success: function(response) {
-          if (response.success) {
-            // Close the modal if form submission is successful
-            $('#staticBackdrop').modal('hide');
-            location.reload();
-          } else {
-            // Display form with errors if there are any
-            $('#staticBackdrop .modal-body').html(response.form_html);
-          }
-        },
-        error: function(xhr, errmsg, err) {
-          // Log the error message to the console
-          console.error(xhr.status + ": " + xhr.responseText);
+  document.getElementById("btn-create-user").onclick = function(){
+    fetch("{% url 'create_user' %}").then(response => response.text()).then(html => {
+      document.getElementById('modalBody').innerHTML = html;  //inside the modal
+      document.getElementById("staticBackdrop").style.display = "block";
+    });
+  };
+
+  const modal = document.getElementById("staticBackdrop");
+  document.getElementsByClassName("btn-close")[0].onclick = () => modal.style.display = "none";
+  window.onclick = (event) => {
+    if (event.target == modal) 
+    modal.style.display = "none"; 
+  };
+
+  document.addEventListener("submit", function(event){
+    if (event.target.id === "userForm"){
+      event.preventDefault();
+      const form = event.target;
+      const formData = new FormData(form);
+      fetch("{% url 'create_user' %}", {
+        method: "POST",
+        body: formData,
+        headers:{"X-Requested-With":"XMLHttpRequest"}
+      }).then(response => response.json()).then(data => {
+        if(data.success){
+          modal.style.display = "hide";
+          location.reload();
+        }
+        else{
+          document.getElementById("modalBody").innerHTML = data.html_form;
         }
       });
-    });
+    }
   });
-  </script>
+</script>
 
 
 <!--ajax for editing user info-->
@@ -361,6 +261,7 @@
           if (response.success) {
             $('#editUserModal').modal('hide');
             fetchUpdatedUserList();   //fetch and update the user list
+            location.reload();
           } else {
             $('#editUserFormContainer').html(response.form_html);
           }
@@ -392,11 +293,28 @@
   </script>
 
 
-<!--script for search functionality-->
+<!--script to clear the search input field-->
 <script>
   function clearSearch() {
       document.getElementsByName('search')[0].value = '';
       document.forms[0].submit();
+  }
+</script>
+
+
+
+<!--Scripts for archiving user accounts -->
+<script>
+  function openArchiveModal(user_id,username){
+    //set the document name in the modal
+    document.getElementById('userNamePlaceholder').innerText = username;
+
+    //set the href attribute of the confirm button to redirect to the approval view
+    const confirmButton = document.getElementById('confirmArchiveButton');
+    confirmButton.href = `/dean/archive-user/${user_id}/`;  //adjust the URL to match your URL pattern
+
+    //show the modal
+    $('.archive').modal('show');
   }
 </script>
 

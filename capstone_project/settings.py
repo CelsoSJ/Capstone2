@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'login',
     'dean',
     'faculty',
-    'pc'
+    'pc',
+    'qao'
 ]
 
 MIDDLEWARE = [
@@ -84,7 +85,7 @@ WSGI_APPLICATION = 'capstone_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'capstone_project',
+        'NAME': 'updated',
         'USER': 'root',
         'PASSWORD': 'Wysiwyg@2001',
         'HOST': '127.0.0.1',
@@ -127,7 +128,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+
+# Additional directories to look for static files
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # Adjust as needed
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -148,3 +155,8 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+
+
+# file storage configuration
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR/'media'

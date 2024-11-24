@@ -6,7 +6,7 @@ from .models import CustomUser,Role,Department, Program
 class CustomUserAdmin(UserAdmin):
   list_display = ('username','email','role','department')  #specifies which fields of the model should be displayed in the list view of the admin interface
   fieldsets = (
-    (None, {'fields':('username','password','email','role','department')}),
+    (None, {'fields':('username','password','email','role','department','program')}),
     ('Personal Info',{'fields':('first_name','last_name','middle_initial','birthday','address')}),
     ('Important Dates',{'fields':('last_login','date_joined')})
   )      # fieldsets is used to control the layout of the fields in the detail view

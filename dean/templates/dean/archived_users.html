@@ -1,0 +1,159 @@
+{% extends 'dean/base.html' %}
+
+{% block content %}
+
+<main class="col ps-md-2 pt-2 mt-2">
+  <a href="#" data-bs-target="#sidebar" data-bs-toggle="collapse"
+    class="border rounded-3 p-1 text-decoration-none">
+    <i class="bi bi-list bi-lg py-2 p-1"></i>
+  </a>
+  <div class="page-header pt-3">
+    <h2>Archived Acounts</h2>
+  </div>
+  <hr class="me-3">
+
+   <!--Display the message after doing an action eg creating user-->
+   {% if messages %}
+   <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+       {% for message in messages %}
+           {{ message }}
+       {% endfor %}
+       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+   </div>
+{% endif %}
+
+
+
+<!-- deleting user Modal -->
+<div class="modal fade delete_user" id="staticbackDrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Delete User Account</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="modalBody">
+       Are you sure you want to permanently delete the account of  "<b><span id="usernamePlaceholder"></span></b>"?
+      </div>
+
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal" id="closeButton">Cancel</button>
+
+        <a href="#" id="confirmDeleteButton" class="btn btn-primary">Delete</a>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<!-- restoring user Modal -->
+<div class="modal fade restore_user" id="staticBackDrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Restore User Account</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="modalbody">
+       Are you sure you want to restore the account of  "<b><span id="userNamePlaceholder"></span></b>"?
+      </div>
+
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal" id="closeButton">Cancel</button>
+
+        <a href="#" id="confirmRestoreButton" class="btn btn-primary">Restore</a>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+  
+  <div class="content-container me-3"> <!-- Added this div -->
+    <div class="row">
+      <div class="col-12">
+        <table class="table table-striped">
+          <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Program</th>
+            <th>Role</th>
+            <th>Action</th>
+          </tr>
+          {% for archived_user in archived_users %}
+            <tr>
+              <td>{{ archived_user.first_name}} {{ archived_user.last_name }}</td>
+              <td>{{ archived_user.username}}</td>
+              <td>{{ archived_user.email}}</td>
+              <td>{{ archived_user.department}}</td>
+              <td>
+                {% for program in archived_user.program.all %}
+                  {{ program }},
+                {% endfor %}
+              </td>
+              <td>{{ archived_user.role}}</td>
+              <td>
+                <div class="d-flex justify-content-start gap-3">
+                  
+                  <button class="btn btn-danger btn-sm" onclick="openDeleteModal('{{archived_user.id}}','{{archived_user.username}}')">Delete</button>
+
+
+                  <button class="btn btn-warning btn-sm" onclick="openRestoreModal('{{archived_user.id}}','{{archived_user.username}}')">Restore</button>
+                      
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+  </div> <!-- End of content-container -->
+</main>
+
+
+
+<!--include jQuery CDN link to use the AJAX functionality-->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<!--Scripts for archiving user accounts -->
+<script>
+  function openDeleteModal(user_id,username){
+    //set the document name in the modal
+    document.getElementById('usernamePlaceholder').innerText = username;
+
+    //set the href attribute of the confirm button to redirect to the approval view
+    const confirmButton = document.getElementById('confirmDeleteButton');
+    confirmButton.href = `/dean/list-of-archived-users/delete-user/${user_id}/`;  //adjust the URL to match your URL pattern
+
+    //show the modal
+    $('.delete_user').modal('show');
+  }
+</script>
+
+
+
+<!--Scripts for restoring user accounts -->
+<script>
+  function openRestoreModal(user_id,username){
+    //set the document name in the modal
+    document.getElementById('userNamePlaceholder').innerText = username;
+
+    //set the href attribute of the confirm button to redirect to the approval view
+    const confirmButton = document.getElementById('confirmRestoreButton');
+    confirmButton.href = `/dean/list-of-archived-users/restore-user/${user_id}/`;  //adjust the URL to match your URL pattern
+
+    //show the modal
+    $('.restore_user').modal('show');
+  }
+</script>
+
+{% endblock %}

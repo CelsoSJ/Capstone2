@@ -1,0 +1,57 @@
+{% extends 'dean/base.html' %}
+
+{% block content %}
+
+<main class="col ps-md-2 pt-2 mt-2">
+  <a href="#" data-bs-target="#sidebar" data-bs-toggle="collapse"
+    class="border rounded-3 p-1 text-decoration-none">
+    <i class="bi bi-list bi-lg py-2 p-1"></i>
+  </a>
+  <div class="page-header pt-3">
+    <h2>Files</h2>
+  </div>
+  <hr class="me-3">
+  <div class="wrap mb-3">
+    <div class="search">
+      <input type="text" class="searchTerm" placeholder="What are you looking for?">
+      <button type="submit" class="searchButton">
+        <i class="bx bx-search"></i>
+      </button>
+    </div>
+  </div>
+  <div class="content-container me-3"> <!-- Added this div -->
+    <div class="row">
+      <div class="col-12">
+        <table class="table table-striped">
+          <tr>
+            <th>
+              Document Name
+            </th>
+            <th>
+              Document Type
+            </th>
+            <th>
+              Submitted by
+            </th>
+            <th>
+              Date Submitted
+            </th>
+            <th>
+              Action
+            </th>
+          </tr>
+          {% for document in documents %}
+            <tr>
+              <td>{{ document.name }}</td>
+              <td>{{ document.deocument_type }}</td>
+              <td>{{ document.submitted_by }}</td>
+              <td>{{ document.date_submitted }}</td>
+              <td></td>
+            </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+  </div> <!-- End of content-container -->
+</main>
+{% endblock %}

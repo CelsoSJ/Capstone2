@@ -1,0 +1,166 @@
+{% extends 'faculty/base.html' %}
+
+{% block content %}
+
+{% load static %}
+<main class="col ps-md-2 pt-2 mt-2">
+  <a href="#" data-bs-target="#sidebar" data-bs-toggle="collapse"
+    class="border rounded-3 p-1 text-decoration-none">
+    <i class="bi bi-list bi-lg py-2 p-1"></i>
+  </a>
+  <div class="page-header pt-3">
+    <h2>My Files</h2>
+  </div>
+  <hr class="me-3">
+  <div class="container mt-4">
+    <div class="wrap mb-3">
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button class="btn btn-outline-primary active" onclick="showContent('pending', this)">Pending</button>
+            <button class="btn btn-outline-primary" onclick="showContent('approval', this)">Approved</button>
+            <button class="btn btn-outline-primary" onclick="showContent('declined'), this">Declined</button>
+        </div>
+    </div>
+</div>
+
+  <div class="content-container me-3"> <!-- Added this div -->
+    <div class="row">
+      <div class="col-12">
+
+
+        <!-- Pending Files Section -->
+        <div class="content-item" id="pending">
+          <h3>Pending Files</h3>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Document Name</th>
+                <th>Type</th>
+                <th>Submitted by</th>
+                <th>Date Submitted</th>
+                <th>status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for document in pending_documents %}
+              <tr>
+                <td>{{ document.document_name }}</td>
+                <td>{{ document.document_type }}</td>
+                <td>You</td>
+                <td>{{ document.date_submitted }}</td>
+                <td>{{ document.status }}</td>
+                <td>
+                  <!--generates a link to the viewer.html file in static/pdfjs/and appends the document.file parameter, so viewer.html knows which PDF to load-->
+                  <a href="{% static 'pdfjs/web/viewer.html' %}?file={{ document.file.url }}" class="btn btn-primary btn-sm me-2" target="_blank">View</a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Approved Files Section -->
+        <div class="content-item" id="approval">
+          <h3>Approved Files</h3>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Document Name</th>
+                <th>Type</th>
+                <th>Submitted by</th>
+                <th>Date Submitted</th>
+                <th>status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for document in approved_documents %}
+              <tr>
+                <td>{{ document.document_name }}</td>
+                <td>{{ document.document_type }}</td>
+                <td>You</td>
+                <td>{{ document.date_submitted }}</td>
+                <td>{{ document.status }}</td>
+                <td>
+                  <!--generates a link to the viewer.html file in static/pdfjs/and appends the document.file parameter, so viewer.html knows which PDF to load-->
+                  <a href="{% static 'pdfjs/web/viewer.html' %}?file={{ document.file.url }}" class="btn btn-primary btn-sm me-2" target="_blank">View</a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Declined Files Section -->
+         <div id="declined" class="content-item">
+          <h3>Declined Files</h3>
+         <table class="table table-bordered table-stripped">
+          <thead>
+            <tr>
+
+              <th>Document Name</th>
+              <th>Type</th>
+              <th>Submitted by</th>
+              <th>Date Submitted</th>
+              <th>status</th>
+              <th>Comments</th>
+              <th>Action</th>
+              
+            </tr>
+          </thead>
+          <tbody>
+            {% for document in declined_documents %}
+            <tr>
+              <td>{{ document.document_name }}</td>
+              <td>{{ document.document_type}}</td>
+              <td>You</td>
+              <td>{{ document.date_submitted }}</td>
+              <td>{{ document.status }}</td>
+              <td>{{ document.comment }}</td>
+              <td>
+                <!--generates a link to the viewer.html file in static/pdfjs/and appends the document.file parameter, so viewer.html knows which PDF to load-->
+                <a href="{% static 'pdfjs/web/viewer.html' %}?file={{ user_document.file.url }}" class="btn btn-primary btn-sm me-2" target="_blank">View</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+         </table>
+         </div>
+         
+
+      </div>
+    </div>
+  </div> <!-- End of content-container -->
+</main>
+
+
+<script>
+function showContent(contentId, button) {
+  // Hide all content items
+  const contentItems = document.querySelectorAll('.content-item');
+  contentItems.forEach(item => {
+      item.style.display = 'none';
+  });
+
+  // Show the selected content item
+  const selectedContent = document.getElementById(contentId);
+  if (selectedContent) {
+      selectedContent.style.display = 'block';
+  }
+
+  // Remove active class from all buttons
+  const buttons = document.querySelectorAll('.btn-group button');
+  buttons.forEach(btn => {
+      btn.classList.remove('active');
+  });
+
+  // Add active class to the clicked button
+  button.classList.add('active');
+}
+
+// Show the default content on page load
+window.onload = function() {
+  showContent('pending', document.querySelector('.btn-outline-primary'));
+};
+</script>
+{% endblock %}

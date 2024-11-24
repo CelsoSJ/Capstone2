@@ -1,60 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+
 body {
-  position: relative;
-  min-height: 100vh; /* Ensures the background covers the entire viewport */
-  margin: 0; /* Removes default margin */
-  font-family:'Poppins',Arial, Helvetica, sans-serif;
+  font-family: 'Poppins', sans-serif;
+  background: #ececec;
 }
 
-body::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url('https://www.camella.com.ph/wp-content/uploads/2022/11/Sorsogon-State-University-SorSU-Photo-from-Online-Student-Tambayan.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  opacity: 0.5; /* Adjust the opacity level as needed */
-  z-index: -1; /* Ensure the background is behind other content */
+/*------------ Login container ------------*/
+.box-area {
+  width: 930px;
 }
 
-.login-container{
-  box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.5);
+/*------------ Right box ------------*/
+.right-box {
+  padding: 40px 30px 40px 40px;
 }
-.heading{
-  color:maroon
+
+/*------------ Custom Placeholder ------------*/
+::placeholder {
+  font-size: 16px;
 }
-.card-header{
+
+.rounded-4 {
+  border-radius: 20px;
+}
+
+.rounded-5 {
+  border-radius: 30px;
+}
+
+/*------------ For small screens------------*/
+@media only screen and (max-width: 768px) {
+  .box-area {
+    margin: 0 10px;
+  }
+
+  .left-box {
+    height: 100px;
+    overflow: hidden;
+  }
+
+  .right-box {
+    padding: 20px;
+  }
+
+  .featured-image {
+    display: none;
+  }
+}
+
+.custom-primary {
   background-color: maroon;
-  color: #ffff;
-  font-weight: bold;
-  font-size:1.5rem
-
+  color: white;
 }
 
 
-.card-body label{
-   font-size:1rem;
-   font-weight:bold
-}
-.card-body input:hover{
-  border-color: maroon;
+
+body{
+  background: linear-gradient(rgba(255,255,255,0.5),rgba(255,255,255,0.4)),
+  url('../img/bulan-campus.jpg');
+  /* Update the path to your image */
+  background-size: cover;
+  /* Cover the entire viewport */
+  background-position: center;
+  /* Center the image */
+  background-repeat: no-repeat;
+  /* Do not repeat the image */
+  height: 100vh;
+  /* Ensure the body takes the full height of the viewport */
+  
 }
 
-li{
-  color:red;
-  list-style: none;
-  display: flex;
-  justify-content: center;
+
+.custom-text {
+  color: rgb(255, 255, 255);
 }
 
-.modal-header{
-  background-color: #03911e;
-  color: #ffff;
+.header-text {
+  text-align: center;
 }
 
-.modal-body{
-  font-size:1.5rem
+.text-shadow {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Adjust values as needed */
 }

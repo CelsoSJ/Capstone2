@@ -3,7 +3,7 @@ from django.contrib.auth.forms import AuthenticationForm  #Django's built-in for
 
 
 class LoginForm(AuthenticationForm):
-  username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter Username'}))
+  username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control form-control-lg bg-light fs-6','placeholder':'Enter Username'}))
   # use widget attribute to customize the HTML attributes of the form fields
 
-  password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Enter Password'}))
+  password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control form-control-lg bg-light fs-6','placeholder':'Enter Password'}))
