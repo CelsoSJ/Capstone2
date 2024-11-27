@@ -4,6 +4,7 @@ from .validators import validate_birthday,validate_letters_only   #importing the
 from django.core.exceptions import ValidationError
 from .models import CustomUser,Department,Role,Program
 
+
 # forms for creating users
 class CustomUserCreationForm(UserCreationForm):
   department = forms.ModelChoiceField(queryset=Department.objects.all(),disabled=True)

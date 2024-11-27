@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from faculty.models import Document
+
 
 # Create your views here.
 
@@ -7,4 +9,5 @@ def home_page(request):
 
 
 def all_files(request):
-  return render(request,'qao/files.html')
+  documents = Document.objects.all().filter(status="Approved")
+  return render(request,'qao/files.html',{'documents':documents})

@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser  #a class provided by django that serves as a base class for custom user models. It provides the foundation for creating a custom user model that extends Django's built-in user model
 
-from .validators import validate_image
 
 
 # Create your models here.
@@ -39,7 +38,7 @@ class CustomUser(AbstractUser):
   department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
   program = models.ManyToManyField(Program, blank=True)
   bio = models.TextField(blank=True, null=True)
-  profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True, validators=[validate_image])
+  profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
   is_archived = models.BooleanField(default=False)
 
 

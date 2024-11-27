@@ -115,7 +115,7 @@ def confirm_approve_document(request,document_id):
 
    #create a record in the notification model
    Notification.objects.create(
-      user=document.submitted_by, 
+      recepient=document.submitted_by, 
       message= f'Your document "{document.document_name}" has been approved!'
    )
    return redirect(reverse('documents-for-review', args=[submission_bin_id]))  #the system will direct the user to the documents_for_review page after approving the document.
@@ -148,8 +148,8 @@ def confirm_decline_document(request, document_id):
 
 
 def view_facultyFiles(request):
-  approved_files = Document.objects.filter(program=request.user.program).filter(status='Approved')
-  declined_files = Document.objects.filter(program=request.user.program).filter(status='Declined')
+  approved_files = Document.objects.filter(program__in=request.user.program.all()).filter(status='Approved')
+  declined_files = Document.objects.filter(program__in=request.user.program.all()).filter(status='Declined')
   return render(request, 'pc/Files.html', {'approved_files':approved_files, 'declined_files':declined_files})
 
 

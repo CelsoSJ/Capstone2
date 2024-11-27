@@ -160,3 +160,4 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 # file storage configuration
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR/'media'
+

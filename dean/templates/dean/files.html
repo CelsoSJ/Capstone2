@@ -36,16 +36,18 @@
             <th>
               Date Submitted
             </th>
+            <th>Program</th>
             <th>
               Action
             </th>
           </tr>
           {% for document in documents %}
             <tr>
-              <td>{{ document.name }}</td>
-              <td>{{ document.deocument_type }}</td>
+              <td>{{ document.document_name }}</td>
+              <td>{{ document.document_type }}</td>
               <td>{{ document.submitted_by }}</td>
               <td>{{ document.date_submitted }}</td>
+              <td>{{ document.program }}</td>
               <td></td>
             </tr>
           {% endfor %}
