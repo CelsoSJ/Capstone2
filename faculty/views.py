@@ -34,10 +34,10 @@ def submissionBinList(request):
   #get user's department and program
   faculty_user = request.user
   department = faculty_user.department
-  program = faculty_user.program.all()
+  program = faculty_user.program
 
   #filter submission bins by user's department and program
-  submission_bins = SubmissionBin.objects.filter(department=department, program__in=program).order_by('-date_created')
+  submission_bins = SubmissionBin.objects.filter(department=department, program=program).order_by('-date_created')
   return render(request, 'faculty/submission_bin_list.html',{'submission_bins':submission_bins})
 
 
@@ -54,7 +54,7 @@ def submit_document(request, submission_bin_id):
       document.submission_bin = submission_bin
       document.submitted_by = request.user
       document.department = request.user.department
-      document.program = submission_bin.program
+      document.program = request.user.program
       document.status = 'Pending'
       document.save()
       #notify pc whenever new document was submitted

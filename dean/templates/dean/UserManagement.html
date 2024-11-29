@@ -42,6 +42,7 @@
               <div class="col">
                 <button type="button" class="btn btn-secondary" onclick="clearSearch()">Clear</button>
               </div>
+              
             </div>
           </div>
         </div>
@@ -156,11 +157,7 @@
                     <td>{{user.username}}</td>
                     <td>{{user.email}}</td>
                     <td>{{user.department}}</td>
-                    <td>
-                      {% for program in user.program.all %}
-                      {{ program.name }},
-                      {% endfor %}
-                    </td>
+                    <td>{{user.program}}</td>
                     <td>{{user.role}}</td>
                     <td>{{ user.last_login }}</td>
 
@@ -192,6 +189,7 @@
 
 <!--include jQuery CDN link to use the AJAX functionality-->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
 
 <!--Ajax for handling creation of user-->
 <script>

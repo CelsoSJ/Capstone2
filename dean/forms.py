@@ -23,7 +23,7 @@ class CustomUserCreationForm(UserCreationForm):
 
   last_name = forms.CharField(required=True, widget=forms.TextInput(attrs={'class':'form-control p-2', 'type':'text','placeholder': 'Enter lastname'}), validators=[validate_letters_only])
 
-  program = forms.ModelMultipleChoiceField(queryset=Program.objects.all(),required=True, widget=forms.CheckboxSelectMultiple)
+  program = forms.ModelChoiceField(queryset=Program.objects.all(),required=True,)
 
 
   birthday = forms.DateField(widget=forms.DateInput(attrs={'type':'date', 'class':'p-2'}), required=True, validators=[validate_birthday])
@@ -60,12 +60,9 @@ class CustomUserCreationForm(UserCreationForm):
 
      # custom form validation
      if role.name == 'Program Chair':
-        if len(programs) > 1:
-           raise ValidationError("A Program Chair can only be associated with one program")
-    
-        for program in programs:
-           if CustomUser.objects.filter(program=program, role__name='Program Chair').exists():
-             raise ValidationError(f"A Program Chair account already exists for the {program.name} program.")
+  
+        if CustomUser.objects.filter(program=programs, role__name='Program Chair').exists():
+            raise ValidationError(f"A Program Chair account already exists for the {programs.name} program.")
      
      return cleaned_data
 
@@ -79,7 +76,6 @@ class CustomUserCreationForm(UserCreationForm):
 
       if commit:
         user.save()
-        self.save_m2m()  # save the many-to-many data for the form
       return user
 
 
@@ -106,7 +102,7 @@ class CustomUserEditForm(forms.ModelForm):
 
   role = forms.ModelChoiceField(queryset=Role.objects.all(), required=True, disabled=True)
 
-  program = forms.ModelMultipleChoiceField(queryset=Program.objects.all(),required=True, widget=forms.CheckboxSelectMultiple)
+  program = forms.ModelChoiceField(queryset=Program.objects.all(),required=True)
 
 
   birthday = forms.DateField(widget=forms.DateInput(attrs={'type':'date', 'class':'p-2'}), required=True, validators=[validate_birthday])

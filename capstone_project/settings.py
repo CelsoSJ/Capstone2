@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'dean',
     'faculty',
     'pc',
-    'qao'
+    'qao',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -85,7 +86,7 @@ WSGI_APPLICATION = 'capstone_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'updated',
+        'NAME': 'updated2',
         'USER': 'root',
         'PASSWORD': 'Wysiwyg@2001',
         'HOST': '127.0.0.1',
@@ -146,6 +147,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'dean.CustomUser'
 
 
+
 #configuration for sending emails
 load_dotenv()
 
@@ -159,5 +161,5 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 # file storage configuration
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR/'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 

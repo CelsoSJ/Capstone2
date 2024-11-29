@@ -56,8 +56,8 @@
                     <td>{{ document.status }}</td>
                     <td>
                       <div class="d-flex justify-content-start"> <!-- Flexbox for inline buttons -->
-                        <!--generates a link to the viewer.html file in static/pdfjs/and appends the document.file parameter, so viewer.html knows which PDF to load-->
-                        <a href="{% static 'pdfjs/web/viewer.html' %}?file={{ document.file.url }}" class="btn btn-primary btn-sm me-2" target="_blank">View</a>
+                        <!--links to the view_document template-->
+                        <a href="{% url 'view_document' document.id %}" class="btn btn-primary btn-sm me-2" target="_blank">View</a>
                          
                         <!-- Button trigger modal -->
                         <button class="btn btn-warning btn-sm me-2"  onclick="openApprovalModal('{{ document.id }}','{{ document.document_name}}')">Approve</button>

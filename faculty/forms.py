@@ -16,9 +16,6 @@ class DocumentForm(forms.ModelForm):
   def clean_file(self):
     file = self.cleaned_data.get('file')
 
-    #check the file type
-    if not file.name.endswith('.pdf'):
-      raise ValidationError('Only PDF files are allowed.')
     
     #check the file size
     max_size = 20 * 1024 * 1024  #20MB in bytes

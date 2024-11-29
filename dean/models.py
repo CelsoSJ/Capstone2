@@ -36,7 +36,7 @@ class CustomUser(AbstractUser):
   middle_initial = models.CharField(max_length=1)
   role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True)
   department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
-  program = models.ManyToManyField(Program, blank=True)
+  program = models.ForeignKey(Program, on_delete=models.SET_NULL, null=True, blank=True)
   bio = models.TextField(blank=True, null=True)
   profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
   is_archived = models.BooleanField(default=False)

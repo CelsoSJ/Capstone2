@@ -25,30 +25,12 @@ def create_submission_bin(request):
             submission_bin = form.save(commit=False)
             submission_bin.created_by = request.user
             submission_bin.department = request.user.department
+            submission_bin.program = request.user.program
 
-            # hay kapagal san many to many field
-            # this get the first program associated with the user, but the program chair only has one program 
-            #user_programs = request.user.program.all()
-           # for program in user_programs:
-               #user_program = get_object_or_404(Program, id=program.id)
-              # submission_bin.program = user_program
-
-            #user_programs = request.user.program.all()
-            #if user_programs.exists():
-             #  program_instance = user_programs.first()
-              # submission_bin.program = program_instance
-
-            user = get_object_or_404(CustomUser, id=request.user.id)
-            get_user_program = user.program.all()
-            getProgramId = get_user_program.first()
-
-            program_id = getProgramId.id
-            program = Program.objects.get(id=program_id)
-            submission_bin.program = program
 
             submission_bin.save()
             
-            notify_users(f"New submission Bin for '{submission_bin.academic_year} - {submission_bin.semester}' was created", user_role_id=1,program=program_id)  #notify faculty users whenever a new submission bin was created
+            notify_users(f"New submission Bin for '{submission_bin.academic_year} - {submission_bin.semester}' was created", user_role_id=1,program=request.user.program)  #notify faculty users whenever a new submission bin was created
             messages.success(request, 'Submission Bin created successfully!')
             return JsonResponse({"success": True})
         
@@ -115,7 +97,7 @@ def confirm_approve_document(request,document_id):
 
    #create a record in the notification model
    Notification.objects.create(
-      recepient=document.submitted_by, 
+      receipient=document.submitted_by, 
       message= f'Your document "{document.document_name}" has been approved!'
    )
    return redirect(reverse('documents-for-review', args=[submission_bin_id]))  #the system will direct the user to the documents_for_review page after approving the document.
@@ -148,8 +130,8 @@ def confirm_decline_document(request, document_id):
 
 
 def view_facultyFiles(request):
-  approved_files = Document.objects.filter(program__in=request.user.program.all()).filter(status='Approved')
-  declined_files = Document.objects.filter(program__in=request.user.program.all()).filter(status='Declined')
+  approved_files = Document.objects.filter(program=request.user.program).filter(status='Approved').order_by('-date_submitted')
+  declined_files = Document.objects.filter(program=request.user.program).filter(status='Declined').order_by('-date_submitted')
   return render(request, 'pc/Files.html', {'approved_files':approved_files, 'declined_files':declined_files})
 
 
@@ -174,3 +156,24 @@ def unread_notification_count(request):
   unread_count = Notification.objects.filter(receipient=request.user).filter(read=False).count()
   return JsonResponse({'unread_count':unread_count})
 
+
+
+from templated_docs import fill_template
+from templated_docs.http import FileResponse
+
+def get_document(request, document_id):
+   
+   document = Document.objects.get(id=document_id)
+
+   context = {'user':request.user, 'document':document}
+   filename = fill_template('template.xlsx',context, output_format='xlsx')
+   visible_filename = 'document.xlsx'
+
+   return FileResponse(filename, visible_filename)
+
+
+def view_document(request, document_id):
+   document = Document.objects.get(id=document_id)
+   document_url = document.file.url.replace('\\','/')
+   return render(request,'pc/document_viewer.html',{'document_url':document_url})
+    

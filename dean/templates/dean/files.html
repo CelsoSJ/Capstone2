@@ -11,14 +11,21 @@
     <h2>Files</h2>
   </div>
   <hr class="me-3">
-  <div class="wrap mb-3">
-    <div class="search">
-      <input type="text" class="searchTerm" placeholder="What are you looking for?">
-      <button type="submit" class="searchButton">
-        <i class="bx bx-search"></i>
-      </button>
+
+  <form method="GET" action="">
+    <div class="wrap mb-3">
+      <div class="search">
+        <input type="text" name="search" class="searchTerm" placeholder="Search documents" value="{{ query }}">
+        <button type="submit" class="searchButton">
+          <i class="bx bx-search"></i>
+        </button>
+       
+          <button type="button" class="btn btn-secondary" onclick="clearSearch()">Clear</button>
+        
+      </div>
     </div>
-  </div>
+  </form>
+
   <div class="content-container me-3"> <!-- Added this div -->
     <div class="row">
       <div class="col-12">
@@ -56,4 +63,19 @@
     </div>
   </div> <!-- End of content-container -->
 </main>
+
+
+
+
+
+
+<!--script to clear the search input field-->
+<script>
+  function clearSearch() {
+      document.getElementsByName('search')[0].value = '';
+      document.forms[0].submit();
+  }
+</script>
+
+
 {% endblock %}

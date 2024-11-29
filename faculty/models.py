@@ -1,7 +1,7 @@
 from django.db import models
 from pc.models import SubmissionBin
 from dean.models import CustomUser, Department, Program
-from .validators import validate_file_type_and_size
+from .validators import validate_size
 
 
 # Create your models here.
@@ -31,7 +31,7 @@ class Document(models.Model):
 
   submission_bin = models.ForeignKey(SubmissionBin, on_delete=models.CASCADE)
   submitted_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-  file = models.FileField(upload_to='documents/', validators=[validate_file_type_and_size])
+  file = models.FileField(upload_to='documents/', validators=[validate_size])
   date_submitted = models.DateTimeField(auto_now_add=True)
   status = models.CharField(max_length=30, choices=[('Pending','Pending'),('Approved','Approved'),('Declined','Declined')])
   comment = models.TextField(blank=True, null=True)

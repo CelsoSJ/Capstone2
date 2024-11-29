@@ -1,0 +1,19 @@
+{% load static %}
+<html>
+<head>
+  <!-- Load ViewerJS CSS and JS files -->
+  <link rel="stylesheet" href="{% static 'ViewerJS/example.local.css' %}">
+  <script src="{% static 'ViewerJS/viewer.js' %}"></script>
+</head>
+<body>
+  <h2>Document Viewer</h2>
+  
+  
+  <!-- Embed ViewerJS in an iframe -->
+  <iframe src="{% static 'ViewerJS/index.html' %}#{{ document_url  }}" width="100%" height="600"></iframe>
+
+
+  
+
+</body>
+</html>

@@ -35,7 +35,7 @@ def userManagement(request):
   query = request.GET.get('search', '')
   if query:
      # filter users based on search query
-     users = CustomUser.objects.filter(Q(first_name__icontains=query)|Q(username__icontains=query)|Q(program__name__icontains=query) ).exclude(role__in=exclude_roles).exclude(is_staff=True).exclude(is_archived=True)   #this search query will filter user with the first_name/username provided in the seach field
+     users = CustomUser.objects.filter(Q(first_name__icontains=query)|Q(username__icontains=query)|Q(program__name__icontains=query)|Q(first_name__icontains=query)|Q(last_name__icontains=query) ).exclude(role__in=exclude_roles).exclude(is_staff=True).exclude(is_archived=True)   #this search query will filter user with the first_name/username provided in the seach field
   else:
      users = CustomUser.objects.exclude(role__in=exclude_roles).exclude(is_staff=True).exclude(is_archived=True) # this filters the list of users that will be rendered in the usermanagement page, so this excludes the Dean and QAO with an id of 3 and 4 respectively
   dean= request.user
@@ -56,9 +56,9 @@ def create_user(request):
          user = form.save(commit=False)
          user.is_active = False     #deactivate account until email verification
          
-         # save the user object first before adding the relationship (program)
+         # save the user 
          user.save()
-         user.program.set(form.cleaned_data['program']) #Save selected programs
+         
 
 
          #send verification email
@@ -134,10 +134,23 @@ def edit_user(request, user_id):
     return render(request, 'dean/edit_user_form.html', {'form': form, 'user':user})
 
 
+
+# view for displaying approved documents
 def department_files_view(request):
    dean = request.user
-   documents = Document.objects.filter(department=dean.department).filter(status='Approved')
-   return render(request,'dean/files.html',{'documents':documents})
+
+
+   query = request.GET.get('search','') # get the search term 
+   if query:
+      documents = Document.objects.filter(department=dean.department).filter(status='Approved').filter(Q(document_type__icontains=query)| Q(submitted_by__username__icontains=query)| Q(program__name__icontains=query))
+
+   else:
+      documents = Document.objects.filter(department=dean.department).filter(status='Approved')
+
+
+   return render(request,'dean/files.html',{'documents':documents, 'query':query})
+
+
 
 
 
@@ -152,7 +165,7 @@ def archive_user(request, user_id):
    return redirect('userManagement')
 
 
-
+# view in displaying the archived user in the template
 def list_of_archived_user(request):
    dean = request.user
    archived_users = CustomUser.objects.filter(is_archived=True).filter(department=dean.department)

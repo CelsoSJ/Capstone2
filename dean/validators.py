@@ -24,6 +24,6 @@ def validate_letters_only(value):
     raise ValidationError('This field must contain only letters.')
   
 
-#def validate_image(value):
-#  if not value.name.endswith(('.jpg','.jpeg','.png')):
- #   raise ValidationError('Only .jpg, .jpeg, and .png files are allowed.')
+def validate_image(value):
+  if not value.name.endswith(('.jpg','.jpeg','.png')):
+    raise ValidationError('Only .jpg, .jpeg, and .png files are allowed.')

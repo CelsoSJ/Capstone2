@@ -12,5 +12,7 @@ urlpatterns = [
   path('documents/confirm-decline/<int:document_id>/', views.confirm_decline_document, name='confirm-document-decline'),
   path('notifications/', views.pc_notification_list, name='pc-notifications'),
   path('notifications/mark-as-read/<int:notification_id>/', views.mark_as_read, name='mark-as-read'),
-  path('notifications/count', views.unread_notification_count, name='unread-notification-count')
+  path('notifications/count', views.unread_notification_count, name='unread-notification-count'),
+  path('document-viewer/<int:document_id>/',views.view_document, name="view_document"),
+  path('document/', views.get_document, name='get_document')
 ]

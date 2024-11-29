@@ -174,9 +174,11 @@
         }
       });
     });
+
   
     // Handle form submission via AJAX
     $('#editSubmissionBinFormContainer').on('submit', '#editSubmissionBinForm', function(event) {
+      var user_bin_id = $(this).data('bin-id');
       event.preventDefault();
       $.ajax({
         type: 'POST',
