@@ -51,7 +51,7 @@
                 <td>{{ document.status }}</td>
                 <td>
                   <!--generates a link to the viewer.html file in static/pdfjs/and appends the document.file parameter, so viewer.html knows which PDF to load-->
-                  <a href="{% static 'pdfjs/web/viewer.html' %}?file={{ document.file.url }}" class="btn btn-primary btn-sm me-2" target="_blank">View</a>
+                  <a href="{% url 'document-viewer' document.id %}" class="btn btn-primary btn-sm me-2" target="_blank">View</a>
                 </td>
               </tr>
               {% endfor %}
@@ -83,7 +83,7 @@
                 <td>{{ document.status }}</td>
                 <td>
                   <!--generates a link to the viewer.html file in static/pdfjs/and appends the document.file parameter, so viewer.html knows which PDF to load-->
-                  <a href="{% static 'pdfjs/web/viewer.html' %}?file={{ document.file.url }}" class="btn btn-primary btn-sm me-2" target="_blank">View</a>
+                  <a href="{% url 'document-viewer' document.id %}" class="btn btn-primary btn-sm me-2" target="_blank">View</a>
                 </td>
               </tr>
               {% endfor %}
@@ -119,7 +119,7 @@
               <td>{{ document.comment }}</td>
               <td>
                 <!--generates a link to the viewer.html file in static/pdfjs/and appends the document.file parameter, so viewer.html knows which PDF to load-->
-                <a href="{% static 'pdfjs/web/viewer.html' %}?file={{ user_document.file.url }}" class="btn btn-primary btn-sm me-2" target="_blank">View</a>
+                <a href="{% url 'document-viewer' document.id %}" class="btn btn-primary btn-sm me-2" target="_blank">View</a>
               </td>
             </tr>
             {% endfor %}

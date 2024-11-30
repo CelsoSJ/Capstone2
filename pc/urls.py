@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
   path("homepage/", views.homepage, name="pc-homepage"),
   path("submission/", views.submission, name='pc-submission'),
-  path('facultyFiles/', views.view_facultyFiles, name='pc-facultyFiles'),
+  path('files/', views.view_facultyFiles, name='pc-files'),
   path('submission/create-submission/', views.create_submission_bin, name='create_submission_bin'),
   path('submission/edit-submission-bin/<int:user_bin_id>/', views.edit_submission_bin, name='edit_submission_bin'),
   path('submission/<int:submission_bin_id>/documents/', views.documents_for_review, name='documents-for-review'),
@@ -13,6 +13,5 @@ urlpatterns = [
   path('notifications/', views.pc_notification_list, name='pc-notifications'),
   path('notifications/mark-as-read/<int:notification_id>/', views.mark_as_read, name='mark-as-read'),
   path('notifications/count', views.unread_notification_count, name='unread-notification-count'),
-  path('document-viewer/<int:document_id>/',views.view_document, name="view_document"),
-  path('document/', views.get_document, name='get_document')
+ 
 ]

@@ -3,6 +3,8 @@
 <html lang="en">
 
 <head>
+  {% load livereload_tags %}
+  {% livereload_script %}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{% static 'pc/css/home.css' %}">
@@ -50,7 +52,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{% url 'pc-facultyFiles' %}" class="nav-link text-white d-flex align-items-center">
+                <a href="{% url 'pc-files' %}" class="nav-link text-white d-flex align-items-center">
                   <i class="bx bx-archive"></i> <span class="ms-2">Files</span>
                 </a>
               </li>

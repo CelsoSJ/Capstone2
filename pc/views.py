@@ -118,7 +118,7 @@ def confirm_decline_document(request, document_id):
 
    #Creates a record in the Notification model after decling the document
      Notification.objects.create(
-      user = document.submitted_by,
+      receipient = document.submitted_by,
       message= f'Your document "{document.document_name}" has been declined.'
    )
 
@@ -158,22 +158,4 @@ def unread_notification_count(request):
 
 
 
-from templated_docs import fill_template
-from templated_docs.http import FileResponse
-
-def get_document(request, document_id):
-   
-   document = Document.objects.get(id=document_id)
-
-   context = {'user':request.user, 'document':document}
-   filename = fill_template('template.xlsx',context, output_format='xlsx')
-   visible_filename = 'document.xlsx'
-
-   return FileResponse(filename, visible_filename)
-
-
-def view_document(request, document_id):
-   document = Document.objects.get(id=document_id)
-   document_url = document.file.url.replace('\\','/')
-   return render(request,'pc/document_viewer.html',{'document_url':document_url})
     

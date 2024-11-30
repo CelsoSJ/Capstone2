@@ -187,6 +187,9 @@
   </div> <!-- End of content-container -->
 </main>
 
+
+
+
 <!--include jQuery CDN link to use the AJAX functionality-->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
@@ -219,6 +222,7 @@
       }).then(response => response.json()).then(data => {
         if(data.success){
           modal.style.display = "hide";
+          fetchUpdatedUserList();
           location.reload();
         }
         else{

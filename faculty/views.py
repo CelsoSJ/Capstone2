@@ -9,6 +9,8 @@ from django.contrib import messages
 from django.http import JsonResponse, HttpResponse
 from django.template.loader import render_to_string
 from pc.models import Notification
+import requests
+import os
 # Create your views here.
 
 
@@ -57,6 +59,9 @@ def submit_document(request, submission_bin_id):
       document.program = request.user.program
       document.status = 'Pending'
       document.save()
+
+     
+
       #notify pc whenever new document was submitted
       notify_users(f"New document was submitted by '{request.user}'",receipient = submission_bin.created_by )
       messages.success(request, 'Document was successfully submitted!')
@@ -70,6 +75,24 @@ def submit_document(request, submission_bin_id):
     form = DocumentForm()
     return render(request, 'faculty/submit_document.html',{'form':form, 'submission_bin':submission_bin})
   
+
+
+
+
+
+
+def document_viewer(request, document_id):
+
+  #fetch the document object
+  document = get_object_or_404(Document, id=document_id)
+
+  #generate the full URL for the file
+  document_url = request.build_absolute_uri(document.file.url)
+  
+  #pass the url to the template
+  return render(request, 'faculty/document_viewer.html', {'document_url':document_url})
+
+
 
 
 

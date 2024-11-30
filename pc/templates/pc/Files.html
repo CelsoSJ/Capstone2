@@ -50,7 +50,7 @@
                 <td>{{ document.status }}</td>
                 <td>
                   <!--links to the view_document template-->
-                  <a href="{% url 'view_document' document.id %}" class="btn btn-primary btn-sm me-2" target="_blank">View</a>
+                  <a href="{% url 'document-viewer' document.id %}" class="btn btn-primary btn-sm me-2" target="_blank">View</a>
                 </td>
               </tr>
               {% endfor %}

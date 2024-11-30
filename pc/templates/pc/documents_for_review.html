@@ -57,7 +57,7 @@
                     <td>
                       <div class="d-flex justify-content-start"> <!-- Flexbox for inline buttons -->
                         <!--links to the view_document template-->
-                        <a href="{% url 'view_document' document.id %}" class="btn btn-primary btn-sm me-2" target="_blank">View</a>
+                        <a href="{% url 'document-viewer' document.id %}" class="btn btn-primary btn-sm me-2" target="_blank">View</a>
                          
                         <!-- Button trigger modal -->
                         <button class="btn btn-warning btn-sm me-2"  onclick="openApprovalModal('{{ document.id }}','{{ document.document_name}}')">Approve</button>
