@@ -19,7 +19,7 @@ class CustomUserCreationForm(UserCreationForm):
 
   first_name = forms.CharField(required=True, widget=forms.TextInput(attrs={'class':'form-control p-2', 'type':'text','placeholder': 'Enter firstname'}), validators=[validate_letters_only])
 
-  middle_initial = forms.CharField(required=True, widget=forms.TextInput(attrs={'class':'form-control w-50 p-2', 'type':'text','placeholder': 'M.I'}), max_length=1, validators=[validate_letters_only])
+  middle_initial = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control w-50 p-2', 'type':'text','placeholder': 'M.I'}), max_length=1, validators=[validate_letters_only])
 
   last_name = forms.CharField(required=True, widget=forms.TextInput(attrs={'class':'form-control p-2', 'type':'text','placeholder': 'Enter lastname'}), validators=[validate_letters_only])
 

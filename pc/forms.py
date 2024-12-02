@@ -7,18 +7,14 @@ class SubmissionBinForm(forms.ModelForm):
   
   academic_year = forms.CharField(max_length=9,widget=forms.TextInput(attrs={'placeholder': 'YYYY-YYYY', 'class': 'form-control'}), validators=[validate_academic_year], required=True) 
   semester = forms.ChoiceField(choices=SubmissionBin.SEMESTER_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}), required=True)
+  category = forms.ChoiceField(choices=SubmissionBin.CATEGORY, widget=forms.Select(attrs={'class': 'form-select'}), required=True)
 
   class Meta:
     model = SubmissionBin
-    fields = ['description','deadline','semester','academic_year','department','program']
+    fields = ['category','deadline','semester','academic_year','department','program']
     # add widgets dictionary to specify custom widgets for each field. each key corresponds to a field name, and the value is an instance of a widget class(like TextInput etc.)
     widgets = {
-      'description': forms.Textarea(attrs={
-        'class': 'form-control',
-        'placeholder': 'Enter description',
-        'rows': 4,  #set the number of rows for the textarea
-        'required':'required' # make the field required
-      }),
+      
       'deadline': forms.DateTimeInput(attrs={
         'class': 'form-control',
         'placeholder': 'YYYY-MM-DD HH:MM',
@@ -34,18 +30,14 @@ class EditSubmissionBinForm(forms.ModelForm):
   
   academic_year = forms.CharField(max_length=9,widget=forms.TextInput(attrs={'placeholder': 'YYYY-YYYY', 'class': 'form-control'}), validators=[validate_academic_year], required=True) 
   semester = forms.ChoiceField(choices=SubmissionBin.SEMESTER_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}), required=True)
+  category = forms.ChoiceField(choices=SubmissionBin.CATEGORY, widget=forms.Select(attrs={'class': 'form-select'}), required=True)
 
   class Meta:
     model = SubmissionBin
-    fields = ['description','deadline','semester', 'academic_year', 'program', 'department']
+    fields = ['category','deadline','semester', 'academic_year', 'program', 'department']
     # add widgets dictionary to specify custom widgets for each field. each key corresponds to a field name, and the value is an instance of a widget class(like TextInput etc.)
     widgets = {
-      'description': forms.Textarea(attrs={
-        'class': 'form-control',
-        'placeholder': 'Enter description',
-        'rows': 4,  #set the number of rows for the textarea
-        'required':'required' # make the field required
-      }),
+      
       'deadline': forms.DateTimeInput(attrs={
         'class': 'form-control',
         'placeholder': 'YYYY-MM-DD HH:MM',

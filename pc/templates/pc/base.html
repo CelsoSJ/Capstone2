@@ -40,7 +40,7 @@
               <span class="fs-5 mt-4 me-4">SorSU Bulan DMS</span>
             </a>
             <hr class="text-white" />
-            <ul class="nav nav-pills flex-column ms-3 mt-2 mt-sm-0" id="menu">
+            <ul class="nav nav-pills flex-column ms-2 mt-2 mt-sm-0" id="menu">
               <li class="nav-item">
                 <a href="{% url 'pc-homepage' %}" class="nav-link text-white d-flex align-items-center">
                   <i class="bx bx-home"></i> <span class="ms-2">Home</span>
@@ -64,7 +64,7 @@
               </li>
               
             </ul>
-            <div class="position-absolute bottom-0 start-0 w-100 ms-3">
+            <div class="position-absolute bottom-0 start-0 w-100">
               <div class="dropdown open">
                 <a class="btn border-none text-white outline-none dropdown-toggle" type="button" id="triggerId"
                   data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -102,11 +102,13 @@
     }
   </script>
 
+
+
   <!-- script for notification count -->
 <script> 
   function updateNotificationCount() { 
     $.ajax({ 
-      url: '{% url "unread-notification-count" %}', success: function(data) {
+      url: '{% url "unread-notification-counts" %}', success: function(data) {
          $('#notification-count').text(data.unread_count); },
          error: function(xhr, status, error) { console.log("Error: " + error); }
         }); 

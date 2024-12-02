@@ -72,6 +72,33 @@
 
 
 
+
+<!-- Modal for deleting a submission bin -->
+<div class="modal fade delete" id="staticbackDrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Delete Submission Bin</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="modalBody">
+       Are you sure you want to delete the submission bin?
+      </div>
+
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal" id="closeButton">Cancel</button>
+
+        <a href="#" id="confirmDeleteButton" class="btn btn-primary">Delete</a>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
   <div class="content-container me-3"> <!-- Added this div -->
     <div class="row m-3">
       <table class="table table-striped">
@@ -79,7 +106,7 @@
           <tr>
             <th>Academic Year</th>
             <th>Semester</th>
-            <th>Description</th>
+            <th>Category</th>
             <th>Created by</th>
             <th>Date Created</th>
             <th>Deadline</th>
@@ -91,7 +118,7 @@
           <tr>
             <td>{{user_bin.academic_year}}</td>
             <td>{{user_bin.semester}}</td>
-            <td>{{user_bin.description}}</td>
+            <td>{{user_bin.category}}</td>
             <td>You</td>
             <td>{{user_bin.date_created}}</td>
             <td>{{user_bin.deadline}}</td>
@@ -102,6 +129,10 @@
               </a>
               
               <button  class="btn btn-primary btn-sm me-2 edit-bin-btn" data-bs-toggle="modal" data-bs-target="#editBinModal" data-bin-id="{{ user_bin.id }}" >Edit Bin</button>
+
+
+             <!-- Button trigger delete modal -->
+             <button class="btn btn-danger btn-sm me-2"  onclick="openDeleteModal('{{ user_bin.id }}')">Delete</button>
               
             </td>
           </tr>
@@ -204,6 +235,20 @@
 
 
 
+
+<!--Scripts for deleting submission bin -->
+<script>
+  function openDeleteModal(submission_bin_id){
+    
+
+    //set the href attribute of the confirm button to redirect to the delete view
+    const confirmButton = document.getElementById('confirmDeleteButton');
+    confirmButton.href = `/pc/submission/delete-submission-bin/${submission_bin_id}/`;  //adjust the URL to match your URL pattern
+
+    //show the modal
+    $('.delete').modal('show');
+  }
+</script>
 
 
 

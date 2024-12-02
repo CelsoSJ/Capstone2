@@ -1,10 +1,9 @@
 
-<form method="POST" action=""   id="editSubmissionBinForm"  class="m-3">
+<form method="POST" action="edit-submission-bin/{{bin.id}}/"   id="editSubmissionBinForm"  class="m-3">
   {% csrf_token %}
   <div class="fields">
   <div class="d-flex justify-content-between">
     <div>
-      <b>{{ bin.id }}</b>
       <b>Academic Year:<span class="text-danger">*</span></b>
         {{ form.academic_year }}
         {% for error in form.academic_year.errors %}
@@ -21,9 +20,9 @@
   </div>
 
   <div>
-    <b>Description:<span class="text-danger">*</span></b>
-        {{ form.description }}
-        {% for error in form.description.errors %}
+    <b>Category:<span class="text-danger">*</span></b>
+        {{ form.category }}
+        {% for error in form.category.errors %}
         <div class="text-danger">{{ error }}</div>
       {% endfor %}
   </div>

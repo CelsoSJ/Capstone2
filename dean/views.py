@@ -14,7 +14,7 @@ from django.utils.encoding import force_bytes, force_str  #essential for convert
 from .tokens import account_activation_token  #importing the token that is created at tokens.py
 from django.utils.html import strip_tags
 from faculty.models import Document
-
+from .decorators import role_required
 
 
 
@@ -22,11 +22,15 @@ from faculty.models import Document
 
 
 # Create your views here
-@login_required  #to restrict access to the view. It requires 
+@login_required  #to restrict access to the view. It requires authenticated user
+@role_required('Dean')
 def home_page(request):
   return render(request, 'dean/homepage.html')
 
+
+
 @login_required
+@role_required('Dean')
 def userManagement(request):
   # exclude users with specified roles and staff users
   exclude_roles = [3,4]
@@ -49,6 +53,7 @@ User = get_user_model() # to retreive the user model that is currently active in
 
 # view for creating faculty users
 @login_required
+@role_required('Dean')
 def create_user(request):
   if request.method == 'POST':
     form = CustomUserCreationForm(request.POST, dean=request.user)
@@ -118,6 +123,7 @@ def activate(request, uidb64, token):
 
 #view for editing user info
 @login_required
+@role_required('Dean')
 def edit_user(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
     if request.method == 'POST':
@@ -136,6 +142,7 @@ def edit_user(request, user_id):
 
 
 # view for displaying approved documents
+@role_required('Dean')
 def department_files_view(request):
    dean = request.user
 
@@ -155,6 +162,7 @@ def department_files_view(request):
 
 
 # view in setting the is_archive attribute to True
+@role_required('Dean')
 def archive_user(request, user_id):
    user = get_object_or_404(CustomUser, id=user_id)
   
@@ -166,6 +174,7 @@ def archive_user(request, user_id):
 
 
 # view in displaying the archived user in the template
+@role_required('Dean')
 def list_of_archived_user(request):
    dean = request.user
    archived_users = CustomUser.objects.filter(is_archived=True).filter(department=dean.department)
@@ -173,7 +182,7 @@ def list_of_archived_user(request):
 
 
 
-
+@role_required('Dean')
 def delete_user(request, user_id):
    user = get_object_or_404(CustomUser, id=user_id)
    if user.is_archived:
@@ -183,7 +192,7 @@ def delete_user(request, user_id):
       return redirect('list-of-archived-users')
 
 
-
+@role_required('Dean')
 def restore_user(request, user_id):
    user = get_object_or_404(CustomUser, id=user_id)
    if user.is_archived:

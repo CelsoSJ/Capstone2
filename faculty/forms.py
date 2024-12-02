@@ -5,11 +5,10 @@ from django.core.exceptions import ValidationError
 class DocumentForm(forms.ModelForm):
   class Meta:
     model = Document
-    fields = ['file', 'document_type', 'document_name']
+    fields = ['file', 'document_name']
     # use widgets to customize the input fields
     widgets = {
       'file': forms.ClearableFileInput(attrs={'class': 'form-control'}),
-      'document_type': forms.Select(attrs={'class': 'form-control'}),
       'document_name': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Enter name'})
     }
   # add validation in the form for extra validation layer

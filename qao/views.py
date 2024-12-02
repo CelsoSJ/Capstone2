@@ -1,14 +1,18 @@
 from django.shortcuts import render
 from faculty.models import Document
 from django.db.models import Q
+from dean.decorators import role_required
 
 
 # Create your views here.
 
+@role_required('Quality Assurance Officer')
 def home_page(request):
   return render(request, 'qao/homepage.html')
 
 
+
+@role_required('Quality Assurance Officer')
 def all_files(request):
 
   #get all approved documents
@@ -22,7 +26,6 @@ def all_files(request):
 
   cict_documents = documents.filter(department__name='CICT')
   cbme_documents = documents.filter(department__name='CBME')
-
 
 
   return render(request,'qao/files.html',{'cict_documents':cict_documents, 'cbme_documents':cbme_documents, 'query':query})

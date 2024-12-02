@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-y_@l$x%iffhq&7dxb&1p4sj0+q61bnl=7#(ck#o4ayg(o4rnb0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['sorsuDMS.pythonanywhere.com']
 
 
 # Application definition
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'pc',
     'qao',
     'rest_framework',
+    
     
 ]
 
@@ -133,12 +134,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR  / 'static/'
 
 
 # Additional directories to look for static files
-STATICFILES_DIRS = [
-    BASE_DIR / "static",  # Adjust as needed
-]
+#STATICFILES_DIRS = [
+ #   BASE_DIR / "static",  # Adjust as needed
+#]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

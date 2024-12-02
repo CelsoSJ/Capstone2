@@ -95,11 +95,7 @@
               <td>{{ archived_user.username}}</td>
               <td>{{ archived_user.email}}</td>
               <td>{{ archived_user.department}}</td>
-              <td>
-                {% for program in archived_user.program.all %}
-                  {{ program }},
-                {% endfor %}
-              </td>
+              <td>{{ archived_user.program }}</td>
               <td>{{ archived_user.role}}</td>
               <td>
                 <div class="d-flex justify-content-start gap-3">

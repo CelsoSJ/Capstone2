@@ -7,17 +7,22 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.contrib import messages
 from django.http import JsonResponse, HttpResponse
+from dean.decorators import role_required
 # Create your views here.
 
+
+@role_required('Program Chair')
 def homepage(request):
   return render(request, 'pc/homepage.html')
 
+
+@role_required('Program Chair')
 def submission(request):
   user_bins = SubmissionBin.objects.filter(created_by=request.user).order_by('-date_created') # get bins created by the user
   return render(request, 'pc/Submission.html', {'user_bins':user_bins})
 
 
-
+@role_required('Program Chair')
 def create_submission_bin(request):
     if request.method == 'POST':
         form = SubmissionBinForm(request.POST)
@@ -45,8 +50,10 @@ def create_submission_bin(request):
 
 
 
+@role_required('Program Chair')
 def edit_submission_bin(request,user_bin_id):
     bin = get_object_or_404(SubmissionBin, id=user_bin_id)
+    
     if request.method == 'POST':
         form = EditSubmissionBinForm(request.POST, instance=bin)
         if form.is_valid():
@@ -62,6 +69,20 @@ def edit_submission_bin(request,user_bin_id):
        form = EditSubmissionBinForm(instance=bin)
     
     return render(request, 'pc/edit_submission_bin.html', {'form': form, 'bin':bin})
+
+
+
+
+@role_required('Program Chair')
+def confirm_delete_submission_bin(request,submission_bin_id):
+   submission_bin = get_object_or_404(Document, id=submission_bin_id)
+   
+   submission_bin.delete()
+
+   #displays a one-time notification on the page after deleting the submission bin
+   messages.success(request, f'Submission Bin has been successfully deleted!')
+
+   return redirect(reverse('pc-submission'))  #the system will direct the user to the current page
     
 
 
@@ -77,7 +98,7 @@ def notify_users(message,user_role_id, program):
 
 
 
-
+@role_required('Program Chair')
 def documents_for_review(request, submission_bin_id):
    submission_bin = get_object_or_404(SubmissionBin, id=submission_bin_id) #get submission_bin_id
    documents = Document.objects.filter(submission_bin=submission_bin).filter(status="Pending").order_by('-date_submitted')  #get all documents submitted in a specific submission_bin in descending order
@@ -85,6 +106,8 @@ def documents_for_review(request, submission_bin_id):
 
 
 
+
+@role_required('Program Chair')
 def confirm_approve_document(request,document_id):
    document = get_object_or_404(Document, id=document_id)
    submission_bin_id = document.submission_bin.id
@@ -104,6 +127,7 @@ def confirm_approve_document(request,document_id):
    
 
 
+@role_required('Program Chair')
 def confirm_decline_document(request, document_id):
    if request.method == "POST":
      comment = request.POST.get('comment')
@@ -128,7 +152,7 @@ def confirm_decline_document(request, document_id):
 
 
 
-
+@role_required('Program Chair')
 def view_facultyFiles(request):
   approved_files = Document.objects.filter(program=request.user.program).filter(status='Approved').order_by('-date_submitted')
   declined_files = Document.objects.filter(program=request.user.program).filter(status='Declined').order_by('-date_submitted')
@@ -138,6 +162,7 @@ def view_facultyFiles(request):
 
 
 # view for viewing pc notifications
+@role_required('Program Chair')
 def pc_notification_list(request):
   notifications = Notification.objects.filter(receipient=request.user).order_by('-date_created')
   return render(request, 'pc/notification.html', {'notifications':notifications})
@@ -149,6 +174,7 @@ def mark_as_read(request, notification_id):
   notification.read = True
   notification.save()
   return redirect('pc-notifications')
+
 
 
 #view for counting unread notification

@@ -33,7 +33,7 @@ class Program(models.Model):
 class CustomUser(AbstractUser):
   address = models.CharField(max_length=255)
   birthday = models.DateField(null=True)
-  middle_initial = models.CharField(max_length=1)
+  middle_initial = models.CharField(max_length=1,null=True, blank=True)
   role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True)
   department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
   program = models.ForeignKey(Program, on_delete=models.SET_NULL, null=True, blank=True)

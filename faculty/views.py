@@ -11,13 +11,16 @@ from django.template.loader import render_to_string
 from pc.models import Notification
 import requests
 import os
+from dean.decorators import role_required
 # Create your views here.
 
 
-
+@role_required('Faculty')
 def home(request):
   return render(request,'faculty/home.html')
 
+
+@role_required('Faculty')
 def files(request):
   user = CustomUser.objects.get(username=
   request.user)
@@ -31,7 +34,7 @@ def files(request):
   return render(request,'faculty/Files.html',{'approved_documents':approved_documents, 'declined_documents':declined_documents, 'pending_documents':pending_documents})
 
 
-
+@role_required('Faculty')
 def submissionBinList(request):
   #get user's department and program
   faculty_user = request.user
@@ -46,7 +49,7 @@ def submissionBinList(request):
 
 
 
-
+@role_required('Faculty')
 def submit_document(request, submission_bin_id):
   submission_bin = get_object_or_404(SubmissionBin, id=submission_bin_id)
   if request.method == 'POST':
@@ -57,6 +60,7 @@ def submit_document(request, submission_bin_id):
       document.submitted_by = request.user
       document.department = request.user.department
       document.program = request.user.program
+      document.document_type = submission_bin.category
       document.status = 'Pending'
       document.save()
 
@@ -81,7 +85,7 @@ def submit_document(request, submission_bin_id):
 
 
 
-def document_viewer(request, document_id):
+#def document_viewer(request, document_id):
 
   #fetch the document object
   document = get_object_or_404(Document, id=document_id)
@@ -104,9 +108,11 @@ def notify_users(message,receipient):
 
 
 # view for viewing faculty notifications
+@role_required('Faculty')
 def faculty_notification_list(request):
   notifications = Notification.objects.filter(receipient=request.user).order_by('-date_created')
   return render(request, 'faculty/notifications.html', {'notifications':notifications})
+
 
 
 # view for changing the read attribute of notification to true
@@ -117,8 +123,19 @@ def mark_as_read(request, notification_id):
   return redirect('faculty-notifications')
 
 
+
 #view for counting unread notification
 def unread_notification_count(request):
   unread_count = Notification.objects.filter(receipient=request.user).filter(read=False).count()
   return JsonResponse({'unread_count':unread_count})
+
+
+
+
+
+def document_viewer(request, document_id):
+    document = get_object_or_404(Document, id=document_id)
+    doc_url = request.build_absolute_uri(document.file.url)
+    return render(request, 'faculty/document_viewer.html', {'doc_url': doc_url})
+
 
